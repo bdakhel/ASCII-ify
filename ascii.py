@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 
 import math
+import sys
 
 chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "[::-1]
 # chars = "#Wo- "[::-1]
@@ -16,11 +17,10 @@ oneCharHeight = 18
 def getChar(inputInt):
     return charArray[math.floor(inputInt*interval)]
 
-text_file = open("output.txt", "w")
+# read image file name from argument list
+image = sys.argv[1]
 
-
-# Ask user for image file
-image = input("Enter image file: ")
+text_file = open("Output.txt", "w")
 im = Image.open(image)
 
 fnt = ImageFont.truetype('C:\\Windows\\Fonts\\lucon.ttf', 15)
