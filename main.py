@@ -1,25 +1,22 @@
 import os
 import discord
 
+# Assign token from replit secrets
 my_token = os.environ['TOKEN']
+
+# Allow bot to view message content
 intents = discord.Intents.default()
 intents.message_content = True
 
-
+# Create instance of client
 client = discord.Client(intents=intents)
 
+# Notify of secure connection
 @client.event
 async def on_ready():
   print(f'We have logged in as {client.user}')
 
 
-#async def on_message(message: discord.Message):
-  '''
-  if message.author == client.user:
-    return
-  if message.content.startswith('$hello'):
-    await message.channel.send("Hello!")
-'''
 @client.event
 async def on_message(message: discord.Message):
   # Setup Channel id
