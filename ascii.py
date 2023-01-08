@@ -8,7 +8,7 @@ charArray = list(chars)
 charLength = len(charArray)
 interval = charLength/256
 
-scaleFactor = 0.5
+scaleFactor = 0.3
 
 oneCharWidth = 10
 oneCharHeight = 18
@@ -16,7 +16,7 @@ oneCharHeight = 18
 def getChar(inputInt):
     return charArray[math.floor(inputInt*interval)]
 
-text_file = open("Output.txt", "w")
+text_file = open("output.txt", "w")
 
 
 # Ask user for image file
