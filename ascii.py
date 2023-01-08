@@ -1,46 +1,81 @@
-from PIL import Image, ImageDraw, ImageFont
-
 import math
 import sys
+from PIL import Image, ImageDraw, ImageFont
 
-chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "[::-1]
-# chars = "#Wo- "[::-1]
-charArray = list(chars)
-charLength = len(charArray)
-interval = charLength/256
+# List of characters to use for image representation
+chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
 
-scaleFactor = 0.3
+# Create list of characters in reverse order
+char_array = list(chars[::-1])
 
-oneCharWidth = 10
-oneCharHeight = 18
+# Calculate interval for mapping image pixel values to characters
+char_length = len(char_array)
+interval = char_length / 256
 
-def getChar(inputInt):
-    return charArray[math.floor(inputInt*interval)]
+# Scale factor for resizing image
+scale_factor = 0.3
 
-# read image file name from argument list
+# Dimensions of each character in the output image
+one_char_width = 10
+one_char_height = 18
+
+# Map input pixel value to a character
+def get_char(input_int):
+    return char_array[math.floor(input_int * interval)]
+
+# Read image file name from argument list
 image = sys.argv[1]
 
+# Open text file for writing
 text_file = open("Output.txt", "w")
+
+# Open image file
 im = Image.open(image)
 
-fnt = ImageFont.truetype('C:\\Windows\\Fonts\\lucon.ttf', 15)
+# Load font
+fnt = ImageFont.truetype("C:\\Windows\\Fonts\\lucon.ttf", 15)
 
+# Get original image dimensions
 width, height = im.size
-im = im.resize((int(scaleFactor*width), int(scaleFactor*height*(oneCharWidth/oneCharHeight))), Image.NEAREST)
+
+# Resize image
+im = im.resize(
+    (int(scale_factor * width), int(scale_factor * height * (one_char_width / one_char_height))),
+    Image.NEAREST,
+)
+
+# Update dimensions after resizing
 width, height = im.size
+
+# Load image pixels
 pix = im.load()
 
-outputImage = Image.new('RGB', (oneCharWidth * width, oneCharHeight * height), color = (0, 0, 0))
-d = ImageDraw.Draw(outputImage)
+# Create new image with the same size as the original image
+output_image = Image.new("RGB", (one_char_width * width, one_char_height * height), color=(0, 0, 0))
 
+# Create image draw object
+d = ImageDraw.Draw(output_image)
+
+# Iterate over all pixels in the image
 for i in range(height):
     for j in range(width):
+        # Get pixel values
         r, g, b = pix[j, i]
-        h = int(r/3 + g/3 + b/3)
+
+        # Calculate pixel brightness
+        h = int(r / 3 + g / 3 + b / 3)
+
+        # Update pixel value with brightness
         pix[j, i] = (h, h, h)
-        text_file.write(getChar(h))
-        d.text((j*oneCharWidth, i*oneCharHeight), getChar(h), font = fnt, fill = (r, g, b))
 
-    text_file.write('\n')
+        # Write character corresponding to pixel value to text file
+        text_file.write(get_char(h))
 
-outputImage.save('output.png')
+        # Draw character on output image
+        d.text((j * one_char_width, i * one_char_height), get_char(h), font=fnt, fill=(r, g, b))
+
+    # Add newline character to text file after each row of pixels
+    text_file.write("\n")
+
+# Save output image
+output_image.save("output.png")
