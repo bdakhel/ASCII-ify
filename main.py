@@ -5,7 +5,7 @@ my_token = os.environ['TOKEN']
 intents = discord.Intents.default()
 intents.message_content = True
 
-image_types = ['png','jpeg','jpg']
+
 client = discord.Client(intents=intents)
 
 @client.event
@@ -22,13 +22,28 @@ async def on_ready():
 '''
 @client.event
 async def on_message(message: discord.Message):
-    for attachment in message.attachments:
-      if message.author == client.user:
+  # Setup Channel id
+  channel_id = '1061409366621814809'
+  # Do not ASCII-ify Images sent by bot
+  if message.author == client.user:
         return
+  # If image is sent is channel set up
+  if str(message.channel.id) == channel_id:
+    # Loop through attachments
+    for attachment in message.attachments:
+      # If an image
+      image_types = ['png','jpeg','jpg']
       if any(attachment.filename.lower().endswith(image) for image in image_types):
-        await attachment.save(f'/home/runner/Ascii-New/{attachment.filename}')
-        os.system(f'python ascii.py /home/runner/Ascii-New/{attachment.filename}')
-        await message.channel.send(file=discord.File('/home/runner/Ascii-New/output.png'))
+        # Save image
+        await attachment.save(f'/home/runner/ASCII-ify/{attachment.filename}')
+        # ASCII-ify
+        os.system(f'python ascii.py /home/runner/ASCII-ify/{attachment.filename}')
+        # Send png file
+        await message.channel.send(file=discord.File(f'/home/runner/ASCII-ify/ASCII-ified.png'))
+        # Send txt file
+        await message.channel.send(file=discord.File(f'/home/runner/ASCII-ify/ASCII-ified.txt'))
+        # Remove saved images
+        os.remove('ASCII-ified.png')
+        os.remove('ASCII-ified.txt')
         os.remove(f'{attachment.filename}')
-        os.remove('output.png')
 client.run(my_token)
