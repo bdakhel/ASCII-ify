@@ -25,11 +25,11 @@ def pixels_to_ascii(image):
 def main(new_width=100):
     # attempt to open image from user-input
     path = input("Enter a valid pathname to an image:\n")
-    # try:
-    image = PIL.Image.open(path)
-    # except:
-    #     print(path, " is not a valid pathname to an image.")
-    #     return
+    try:
+        image = PIL.Image.open(path)
+    except:
+        print(path, " is not a valid pathname to an image.")
+        return
   
     # convert image to ascii    
     new_image_data = pixels_to_ascii(grayify(resize_image(image)))
