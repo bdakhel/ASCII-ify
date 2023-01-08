@@ -12,9 +12,6 @@ char_array = list(chars[::-1])
 char_length = len(char_array)
 interval = char_length / 256
 
-# Scale factor for resizing image
-scale_factor = 0.1
-
 # Dimensions of each character in the output image
 one_char_width = 10
 one_char_height = 18
@@ -27,23 +24,25 @@ def get_char(input_int):
 image = sys.argv[1]
 
 # Open text file for writing
-text_file = open("Output.txt", "w")
+text_file = open("ASCII-ified.txt", "w")
 
-# Open image file
-im = Image.open(image)
+# Open image file and convert to RGB
+im = Image.open(image).convert('RGB')
 
 # Load font
-fnt = ImageFont.truetype("/home/runner/Ascii-New/Lucon.ttf", 15)
+fnt = ImageFont.truetype("/home/runner/ASCII-ify/Lucon.ttf", 15)
 
 # Get original image dimensions
 width, height = im.size
 
+# Scale factor for resizing image
+
+scale_factor = 0.25
 # Resize image
 im = im.resize(
     (int(scale_factor * width), int(scale_factor * height * (one_char_width / one_char_height))),
     Image.NEAREST,
 )
-im= im.convert('RGB')
 # Update dimensions after resizing
 width, height = im.size
 
@@ -78,5 +77,4 @@ for i in range(height):
     text_file.write("\n")
 
 # Save output image
-output_image.save("/home/runner/Ascii-New/output.png")
-os.remove('Output.txt')
+output_image.save(f"/home/runner/ASCII-ify/ASCII-ified.png")
