@@ -1,7 +1,7 @@
 import math
 import sys
 from PIL import Image, ImageDraw, ImageFont
-
+import os
 # List of characters to use for image representation
 chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
 
@@ -13,7 +13,7 @@ char_length = len(char_array)
 interval = char_length / 256
 
 # Scale factor for resizing image
-scale_factor = 0.3
+scale_factor = 0.1
 
 # Dimensions of each character in the output image
 one_char_width = 10
@@ -33,7 +33,7 @@ text_file = open("Output.txt", "w")
 im = Image.open(image)
 
 # Load font
-fnt = ImageFont.truetype("C:\\Windows\\Fonts\\lucon.ttf", 15)
+fnt = ImageFont.truetype("/home/runner/Ascii-New/Lucon.ttf", 15)
 
 # Get original image dimensions
 width, height = im.size
@@ -43,7 +43,7 @@ im = im.resize(
     (int(scale_factor * width), int(scale_factor * height * (one_char_width / one_char_height))),
     Image.NEAREST,
 )
-
+im= im.convert('RGB')
 # Update dimensions after resizing
 width, height = im.size
 
@@ -78,4 +78,5 @@ for i in range(height):
     text_file.write("\n")
 
 # Save output image
-output_image.save("output.png")
+output_image.save("/home/runner/Ascii-New/output.png")
+os.remove('Output.txt')
