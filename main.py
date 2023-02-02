@@ -20,7 +20,7 @@ async def on_ready():
 @client.event
 async def on_message(message: discord.Message):
   # Setup Channel id
-  channel_id = '1061409366621814809'
+  channel_id = os.environ['CHANNEL-ID']
   # Do not ASCII-ify Images sent by bot
   if message.author == client.user:
         return
