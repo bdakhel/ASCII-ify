@@ -1,5 +1,5 @@
 # ASCII-ify
-This is a discord bot that converts images into ASCII art and sends the result in the form of both a .txt and .png file. The bot is triggered when an image is sent to a specific channel in a discord server.
+This is a discord bot created at HackED 2023 with a partner that converts images into ASCII art and sends the result in the form of both a .txt and .png file. The bot is triggered when an image is sent to a specific channel in a discord server.
 # Requirements
 - Replit account
 - Discord Developer account
